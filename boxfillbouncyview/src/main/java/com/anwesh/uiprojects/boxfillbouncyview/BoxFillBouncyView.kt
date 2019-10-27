@@ -29,7 +29,7 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 
 fun Canvas.drawLid(scale : Float, size : Float, paint : Paint) {
     save()
-    rotate(-180f * scale.sinify())
+    rotate(-deg * scale.sinify())
     drawLine(0f, 0f, size, 0f, paint)
     restore()
 }
@@ -69,15 +69,16 @@ fun Canvas.drawBFBNode(i : Int, scale : Float, paint : Paint) {
 class BoxFillBouncyView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val renderer : Renderer = Renderer(this)
 
     override fun onDraw(canvas : Canvas) {
-
+        renderer.render(canvas, paint)
     }
 
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                renderer.handleTap()
             }
         }
         return true
