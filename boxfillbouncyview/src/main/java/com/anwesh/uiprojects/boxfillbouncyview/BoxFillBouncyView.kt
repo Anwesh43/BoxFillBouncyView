@@ -196,4 +196,26 @@ class BoxFillBouncyView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BoxFillBouncyView) {
+
+        private val animator : Animator = Animator(view)
+        private val bfb : BoxFillBouncy = BoxFillBouncy(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bfb.draw(canvas, paint)
+            animator.animate {
+                bfb.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bfb.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
